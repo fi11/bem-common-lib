@@ -1,0 +1,11 @@
+block pagination, elem pages {
+	tag: 'ul'
+	content: {
+			var _buf = this.ctx.content || [],
+				_prev_page = this._current - 1,
+				_next_page = this._current + 1;
+			this._prev && (_buf = [{elem: 'item', elemMods: {type: 'prev'}, url: this._url + 'page/' + _prev_page + '/', content: this._prev}].concat(_buf));
+			this._next && (_buf = _buf.concat({elem: 'item', elemMods: {type: 'next'}, url: this._url + 'page/' + _next_page + '/', content: this._next}));
+			return _buf;
+		}
+}

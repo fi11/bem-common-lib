@@ -1,0 +1,11 @@
+block('text').elem('email')(
+    tag()('a'),
+    attrs()( function() {
+
+        return {href: 'mailto:' + this.ctx.content}
+    }),
+    content()(function() {
+
+        return this.ctx.content
+    })
+);

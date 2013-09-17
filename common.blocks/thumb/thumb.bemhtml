@@ -1,0 +1,6 @@
+block thumb {
+	this.ctx.url, default: applyCtx(
+		{ block: 'link', mods: {inner: 'yes'}, url: this.ctx.url, content: this.ctx}
+	)
+	content: [{block: 'thumb', elem: 'image', img: this.ctx.img, alt: this.ctx.alt}, this.ctx.content]
+}

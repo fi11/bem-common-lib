@@ -1,0 +1,68 @@
+block pagination {
+	default: applyNext(
+			this._total=this.ctx.total,
+			this._current=this.ctx.current || 1,
+			this._url=this.ctx.url || 'page/',
+			this._prev = this._current > 1 && (this.ctx.prev || '«Пред.'),
+			this._next = this._current < this._total && (this.ctx.next || 'След.»'),
+			this._get_range = function(x,y) {
+				var _buf = [];
+				for (var i = x; i < y+1; i++) {
+					var _is_current = this._current === i,
+						_url = this._url + 'page/' + i + '/'
+
+				    _buf.push(
+				    	{
+				    		elem: 'item',
+				    		mods: {type: 'page', current: _is_current ? 'yes': ''},
+				    		url: _is_current ? '' : _url,
+				    		content: i
+			    		}
+		    		)
+				}
+				return _buf;
+			},
+			this._get_digg_pages = function() {
+				var _buf = [], 
+					_type = 'middle',
+					_sep = {elem: 'item', mods: {type: 'separator'}, content: '...'};
+				this._current < 6 && (_type = 'leader');
+				this._current > this._total - 5 && (_type = 'trailer');
+				this._total < 10 && (_type = 'simple');
+				switch(_type){
+					case 'simple':
+						_buf = this._get_range(1,this._total)
+						break
+					case 'leader':
+						_buf = _buf
+							.concat(this._get_range(1,5))
+							.concat(_sep)
+							.concat(this._get_range(this._total-1, this._total))
+						break
+					case 'middle':
+						_buf = _buf
+							.concat(this._get_range(1,2))
+							.concat(_sep)
+							.concat(this._get_range(this._current-2, this._current+2))
+							.concat(_sep)
+							.concat(this._get_range(this._total-1, this._total))
+						break
+					case 'trailer':
+						_buf = _buf
+							.concat(this._get_range(1,2))
+							.concat(_sep)
+							.concat(this._get_range(this._total-4, this._total))
+						break
+				}
+				return _buf;
+			}
+		)
+	mod type digg, this._total, content: [
+			this.ctx.content,
+			{elem: 'pages', content: this._get_digg_pages()}
+		]
+	mod type simple, this._total, content: [
+			this.ctx.content,
+			this.ctx.content, {elem: 'pages', content: this._get_range(1, this._total)}
+		]
+}

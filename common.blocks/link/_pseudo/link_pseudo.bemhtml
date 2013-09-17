@@ -1,0 +1,8 @@
+block('link').mod('pseudo', true)(
+
+    tag()('span'),
+
+    js()(true),
+
+    attrs()({})
+);

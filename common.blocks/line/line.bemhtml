@@ -1,0 +1,4 @@
+block('line').def()(function() {
+	this.ctx.mix = { block: 'clearfix' };
+	applyNext();
+});

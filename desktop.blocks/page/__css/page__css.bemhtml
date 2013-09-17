@@ -1,0 +1,35 @@
+block('page').elem('css')(
+
+    bem()(false),
+
+    tag()('style'),
+
+    def()
+        .match(function() { return this.ctx.hasOwnProperty('ie') })
+        .match(function() { return !this.ctx._ieCommented })(
+            function() {
+                var ie = this.ctx.ie;
+                var hideRule = !ie ?
+                        ['gt IE 8', '<!-->', '<!--'] :
+                        ie === '!IE' ?
+                            [ie, '<!-->', '<!--'] :
+                            [ie, '', ''];
+                apply(
+                    '',
+                    { 'ctx._ieCommented': true },
+                    {
+                        ctx: [
+                            '<!--[if ' + hideRule[0] + ']>' + hideRule[1],
+                            this.ctx,
+                            hideRule[2] + '<![endif]-->'
+                        ]
+                    }
+                );
+            }),
+
+    match(function() { return this.ctx.url })(
+        tag()('link'),
+        attrs()(function() { return { rel: 'stylesheet', href: this.ctx.url } })
+    )
+
+);

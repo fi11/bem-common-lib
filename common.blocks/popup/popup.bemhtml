@@ -1,0 +1,10 @@
+block('popup')(
+
+    content()(function(){
+        return [
+            { elem: 'under', tag: 'iframe' },
+            { elem: 'tail' },
+		    { elem: 'layout', content: this.ctx.content }
+        ]
+    })
+);

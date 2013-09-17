@@ -1,0 +1,6 @@
+.bem/cache
+node_modules
+libs
+
+desktop.bundles/*
+!desktop.bundles/.bem/

@@ -1,0 +1,5 @@
+block thumb, elem image {	
+	default: applyCtx({ block: 'thumb', elem: 'image-wrapper', content: this.ctx})
+	tag: 'img'
+	attrs: { src: this.ctx.img, alt: this.ctx.alt}
+}
